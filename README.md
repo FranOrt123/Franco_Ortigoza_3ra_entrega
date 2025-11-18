@@ -33,15 +33,10 @@
    python manage.py migrate
    ```
 
-5. **Crear superusuario (opcional)**
-   ```
-   python manage.py createsuperuser
-   ```
-
-6. **Iniciar el servidor**
+5. **Iniciar el servidor**
    ```
    python manage.py runserver
    ```
 
-7. **Acceder a la aplicación**
+6. **Acceder a la aplicación**
    - Abrir el navegador en: http://127.0.0.1:8000/
