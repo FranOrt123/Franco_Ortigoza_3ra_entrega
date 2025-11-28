@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo_pagina %} Listado de Camisetas {% endblock %}
+{% block contentenido %}
+
+    <form action={% url "listado" %} method="get">
+        {{formulario}}
+        <input type="submit" value="Buscar">
+    </form>
+
+    {% if camisetas %}
+    <ul>    
+        {% for camiseta in camisetas %}
+    
+        <li>
+            {{camiseta.id}} - {{camiseta.club}} - {{camiseta.modelo}} - {{camiseta.talle}} 
+            | <a href="{% url 'ver' camiseta.id %}">Ver</a> 
+            | <a href="{% url 'editar' camiseta.id %}">Editar</a>
+            | <a href="{% url 'eliminar' camiseta.id %}">Eliminar</a>
+        </li>
+    
+        {% endfor %}
+    </ul>
+     {% else %}
+     <p>No hay camisetas disponibles.</p>   
+    {% endif %}
+{% endblock %}  

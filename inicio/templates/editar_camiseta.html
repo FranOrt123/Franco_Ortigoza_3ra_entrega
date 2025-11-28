@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo_pagina %} Editar Camiseta {% endblock %}
+{% block contentenido %}
+
+    <form action={% url 'editar' camiseta.id %} method="post" translate="no">
+        {% csrf_token %}
+        {{ form}}   
+ 
+        <input type="submit" value="Editar">
+    </form>
+
+{% endblock %} 

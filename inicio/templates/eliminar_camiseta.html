@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo_pagina %} Eliminar Camiseta {% endblock %}
+{% block contentenido %}
+
+    <form action={% url 'eliminar' camiseta.id %} method="post" translate="no">
+        {% csrf_token %}
+    Confirmar eliminacion de la camiseta: {{camiseta.club}} - {{camiseta.modelo}} - {{camiseta.talle}}?   
+ 
+        <input type="submit" value="Confirmar">
+    </form>
+
+{% endblock %} 

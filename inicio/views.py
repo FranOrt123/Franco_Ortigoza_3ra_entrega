@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from inicio.models import Camiseta
+from inicio.forms import CrearCamisetas, BuscarCamisetas
+from django.views.generic.edit import UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 def inicio(request):
     return render(request, "inicio.html")
@@ -8,15 +11,47 @@ def inicio(request):
 def otra(request):
     return render(request, "otra.html")
 
-def crear_camiseta(request, club, modelo, talle):
+def crear_camiseta(request):
+    if request.method == "POST":
+        formulario = CrearCamisetas(request.POST)
+        if formulario.is_valid():
+            info = formulario.cleaned_data
+        
+            camiseta = Camiseta(club=info.get("club"), modelo=info.get("modelo"), talle=info.get("talle"))
+            camiseta.save()
 
-    camiseta = Camiseta(club=club, modelo=modelo, talle=talle)
-    camiseta.save()
-    
-    return render(request, "crear-camiseta.html", {'camiseta': camiseta})
+            return redirect("listado")
+    else:
+        formulario = CrearCamisetas()
+
+    return render(request, "crear_camiseta.html", {'formulario': formulario})
 
 def listar_camisetas(request):
 
+    formulario = BuscarCamisetas(request.GET)
     camisetas = Camiseta.objects.all()
-    return render(request, "listar-camisetas.html", {'camisetas': camisetas})
+
+    if formulario.is_valid():
+        club_buscado = formulario.cleaned_data.get("club")
+        if club_buscado:
+            camisetas = Camiseta.objects.filter(club__icontains=club_buscado)
+
+    return render(request, "listar_camisetas.html", {'camisetas': camisetas, 'formulario': formulario})
+
+
+def ver_camiseta(request, id):
+    camiseta = get_object_or_404(Camiseta, id=id)
+    return render(request, "ver_camiseta.html", {'camiseta': camiseta})
+
+
+class EditarCamisetas(UpdateView):
+    model = Camiseta
+    template_name = "editar_camiseta.html"
+    fields = ['club', 'modelo', 'talle']        
+    success_url = reverse_lazy('listado')
+
+class EliminarCamisetas(DeleteView):
+    model = Camiseta
+    template_name = "eliminar_camiseta.html"
+    success_url = reverse_lazy('listado')
     

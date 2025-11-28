@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo_pagina %} Creacion de Camisetas {% endblock %}
+{% block contentenido %}
+
+    <form action={% url 'crear' %} method="post" translate="no">
+        {% csrf_token %}
+        {{ formulario}}   
+ 
+        <input type="submit" value="Crear">
+    </form>
+
+{% endblock %} 

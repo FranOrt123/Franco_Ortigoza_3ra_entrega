@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block titulo_pagina %} Base {% endblock %}
+    </title>
+  </head>
+  <body>
+        <nav>
+          <a href="{% url 'inicio' %}">Inicio</a>
+          <a href="{% url 'crear' %}">Crear</a>
+          <a href="{% url 'listado' %}">Listado de camisetas</a>
+        </nav>
+
+        <main>
+            {% block contentenido %}
+            {% endblock %}
+        </main>
+
+  </body>
+  </html>
+  
